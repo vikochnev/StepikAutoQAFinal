@@ -1,2 +1,2 @@
-# StepikFinal
-Stepik course final assignment
+# StepikAutoQAFinal
+Stepik automation QA course final assignment
