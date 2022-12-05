@@ -1,5 +1,6 @@
 import pytest
 from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
 
 
 def pytest_addoption(parser):
@@ -12,90 +13,23 @@ def pytest_addoption(parser):
 
 
 @pytest.fixture(scope="function")
-def language_switch(request):
-    language = request.config.getoption("language")
-    match language:
-        case 'ar':
-            print(f'\nOpening page in arabian')
-            return 'ar'
-        case 'ca':
-            print(f'\nOpening page in catalan')
-            return 'ca'
-        case 'cs':
-            print(f'\nOpening page in czech')
-            return 'cs'
-        case 'da':
-            print(f'\nOpening page in danish')
-            return 'da'
-        case 'de':
-            print(f'\nOpening page in deutsch')
-            return 'de'
-        case 'en-gb':
-            print(f'\nOpening page in english(GB)')
-            return 'en-gb'
-        case 'el':
-            print(f'\nOpening page in greek')
-            return 'el'
-        case 'es':
-            print(f'\nOpening page in spanish')
-            return 'es'
-        case 'fi':
-            print(f'\nOpening page in finnish')
-            return 'fi'
-        case 'fr':
-            print(f'\nOpening page in french')
-            return 'fr'
-        case 'it':
-            print(f'\nOpening page in italian')
-            return 'it'
-        case 'ko':
-            print(f'\nOpening page in korean')
-            return 'ko'
-        case 'nl':
-            print(f'\nOpening page in dutch')
-            return 'nl'
-        case 'pl':
-            print(f'\nOpening page in polish')
-            return 'pl'
-        case 'pt':
-            print(f'\nOpening page in portuguese')
-            return 'pt'
-        case 'pt-br':
-            print(f'\nOpening page in portuguese-brazilian')
-            return 'pt-br'
-        case 'ro':
-            print(f'\nOpening page in romanian')
-            return 'ro'
-        case 'ru':
-            print(f'\nOpening page in russian')
-            return 'ru'
-        case 'sk':
-            print(f'\nOpening page in slovenian')
-            return 'sk'
-        case 'uk':
-            print(f'\nOpening page in ukranian')
-            return 'uk'
-        case 'zh-cn':
-            print(f'\nOpening page in simplified chinese')
-            return 'zh-cn'
-        case _:
-            raise pytest.UsageError("--language is incorrect")
-
-
-
-@pytest.fixture(scope="function")
 def browser(request):
     browser_name = request.config.getoption("browser_name")
-    browser = None
+    user_language = request.config.getoption("language")
     match browser_name:
         case "chrome":
             print("\nstart chrome browser for test..")
-            browser = webdriver.Chrome()
+            options = Options()
+            options.add_experimental_option('prefs', {'intl.accept_languages': user_language})
+            browser = webdriver.Chrome(options=options)
         case "firefox":
             print("\nstart firefox browser for test..")
-            browser = webdriver.Firefox()
+            fp = webdriver.FirefoxProfile()
+            fp.set_preference("intl.accept_languages", user_language)
+            browser = webdriver.Firefox(firefox_profile=fp)
         case _:
             raise pytest.UsageError("--browser_name should be chrome or firefox")
+    browser.implicitly_wait(5)
     yield browser
     print("\nquit browser..")
     browser.quit()
