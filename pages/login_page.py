@@ -9,7 +9,8 @@ class LoginPage(BasePage):
         self.should_be_register_form()
 
     def should_be_login_url(self):
-        assert self.browser.current_url == LoginPageLocators.LOGIN_URL, "Current URL isn't equal to login page URL"
+        assert BasePage.check_if_string_equals_split(self.browser.current_url, LoginPageLocators.LOGIN_URL_SPLIT), \
+            "Current URL isn't equal to login page URL "
 
     def should_be_login_form(self):
         assert self.is_element_present(*LoginPageLocators.LOGIN_FORM), "Login form is not presented"
