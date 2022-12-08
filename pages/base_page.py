@@ -16,3 +16,8 @@ class BasePage:
 
     def open(self):
         self.browser.get(self.url)
+
+    def get_element_text(self, *element):
+        text = self.browser.find_element(*element).text
+        return text
+
