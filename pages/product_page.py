@@ -1,5 +1,6 @@
-from selenium.common.exceptions import NoAlertPresentException
 import math
+
+from selenium.common.exceptions import NoAlertPresentException
 
 from .base_page import BasePage
 from .locators import ProductPageLocators
@@ -27,12 +28,21 @@ class ProductPage(BasePage):
     def assert_product_name(self):
         product_name_should_be = self.browser.find_element(*ProductPageLocators.PRODUCT_NAME).text
         product_name = self.browser.find_element(*ProductPageLocators.PRODUCT_ADDED_TO_BASKET_PRODUCT).text
-        assert product_name == product_name_should_be,\
+        assert product_name == product_name_should_be, \
             f"Product in basket: {product_name}, should be: {product_name_should_be}"
 
     def assert_basket_total(self):
         product_price_should_be = self.browser.find_element(*ProductPageLocators.PRODUCT_PRICE).text
         total = self.browser.find_element(*ProductPageLocators.BASKET_TOTAL).text
         basket_amount = total.split()
-        assert basket_amount[2] == product_price_should_be,\
+        assert basket_amount[2] == product_price_should_be, \
             f"Basket total: {basket_amount[2]} should be: {product_price_should_be}"
+
+    def should_not_be_success_message(self):
+        assert self.is_not_element_present(*ProductPageLocators.SUCCESS_MESSAGE), \
+            "Success message is presented, but should not be"
+
+
+    def should_disappear_success_message(self):
+        assert self.is_disappeared(*ProductPageLocators.SUCCESS_MESSAGE), \
+            "Success message did not disappear"
