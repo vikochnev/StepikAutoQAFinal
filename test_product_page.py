@@ -6,7 +6,6 @@ from .pages.login_page import LoginPage
 from .pages.product_page import ProductPage
 
 
-@pytest.mark.need_review
 class TestUserAddToBasketFromProductPage:
     @pytest.fixture(scope="function", autouse=True)
     def setup(self, browser):
@@ -20,6 +19,7 @@ class TestUserAddToBasketFromProductPage:
         page.register_new_user(email, password)
         page.assert_authorized_user()
 
+    @pytest.mark.need_review
     def test_user_can_add_product_to_basket(self, browser):
         """Test may sometimes fail due to server problems described in fixture, rerun them in that case"""
         link = ProductPageLocators.PRODUCT_PAGE_URL
@@ -29,6 +29,7 @@ class TestUserAddToBasketFromProductPage:
         page.assert_product_name()
         page.assert_basket_total()
 
+    @pytest.mark.need_review
     def test_user_cant_see_success_message(self, browser):
         """Test may sometimes fail due to server problems described in fixture, rerun them in that case"""
         link = ProductPageLocators.PRODUCT_PAGE_URL
