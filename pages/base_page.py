@@ -15,9 +15,20 @@ class BasePage:
         text = self.browser.find_element(*element).text
         return text
 
+    def get_language(self):
+        lang = self.browser.find_element(*BasePageLocators.LANGUAGE_LOCATOR).get_attribute("lang")
+        return lang
+
     def go_to_login_page(self):
         link = self.browser.find_element(*BasePageLocators.LOGIN_LINK)
         link.click()
+
+    def go_to_basket_page(self):
+        basket_button = BasePageLocators.BASKET_PAGE_LOCATOR
+        lang = self.get_language()
+        link = self.browser.find_element(basket_button[0], basket_button[1][0]+lang+basket_button[1][1])
+        link.click()
+
 
     def is_disappeared(self, how, what, timeout=4):
         try:
