@@ -26,14 +26,14 @@ class ProductPage(BasePage):
             print("No second alert presented")
 
     def assert_product_name(self):
-        product_name_should_be = self.browser.find_element(*ProductPageLocators.PRODUCT_NAME).text
-        product_name = self.browser.find_element(*ProductPageLocators.PRODUCT_ADDED_TO_BASKET_PRODUCT).text
+        product_name_should_be = self.get_element_text(*ProductPageLocators.PRODUCT_NAME)
+        product_name = self.get_element_text(*ProductPageLocators.PRODUCT_ADDED_TO_BASKET_PRODUCT)
         assert product_name == product_name_should_be, \
             f"Product in basket: {product_name}, should be: {product_name_should_be}"
 
     def assert_basket_total(self):
-        product_price_should_be = self.browser.find_element(*ProductPageLocators.PRODUCT_PRICE).text
-        total = self.browser.find_element(*ProductPageLocators.BASKET_TOTAL).text
+        product_price_should_be = self.get_element_text(*ProductPageLocators.PRODUCT_PRICE)
+        total = self.get_element_text(*ProductPageLocators.BASKET_TOTAL)
         basket_amount = total.split()
         assert basket_amount[2] == product_price_should_be, \
             f"Basket total: {basket_amount[2]} should be: {product_price_should_be}"
