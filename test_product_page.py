@@ -29,7 +29,7 @@ class TestUserAddToBasketFromProductPage:
         page.assert_product_name()
         page.assert_basket_total()
 
-    @pytest.mark.need_review
+
     def test_user_cant_see_success_message(self, browser):
         """Test may sometimes fail due to server problems described in fixture, rerun them in that case"""
         link = ProductPageLocators.PRODUCT_PAGE_URL
@@ -37,7 +37,7 @@ class TestUserAddToBasketFromProductPage:
         page.open()
         page.assert_no_success_message()
 
-
+@pytest.mark.need_review
 @pytest.mark.parametrize('link', ["http://selenium1py.pythonanywhere.com/en-gb/catalogue/the-shellcoders-handbook_209/",
                                   "http://selenium1py.pythonanywhere.com/en-gb/catalogue/hacking-exposed-wireless_208/",
                                   "http://selenium1py.pythonanywhere.com/en-gb/catalogue/coders-at-work_207/"])
